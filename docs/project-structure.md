@@ -5,7 +5,8 @@ The workspace owns integration settings and tools. Each project owns its source,
 tests and documentation and is managed independently in Git, without submodules.
 The workspace root and all eleven project folders have their own local Git
 repository with a local baseline commit. These snapshots start new local history;
-they do not recover historical commits. No remotes have been configured here.
+they do not recover historical commits. Each repository has its own GitHub origin;
+see the [public repository list](repositories.md).
 
 ## Directory layout
 
