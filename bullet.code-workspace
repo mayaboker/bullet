@@ -1,0 +1,172 @@
+{
+  "folders": [
+    {
+      "name": "bullet-root",
+      "path": "."
+    },
+    {
+      "name": "config",
+      "path": "config"
+    },
+    {
+      "path": "projects/bullet_render"
+    },
+    {
+      "path": "projects/mcap_bagger"
+    },
+    {
+      "path": "projects/bullet_drone"
+    },
+    {
+      "name": "docs",
+      "path": "docs"
+    },
+    {
+      "path": "projects/bullet_msgs"
+    },
+    {
+      "path": "projects/los_tracking"
+    },
+    {
+      "path": "projects/bullet_app"
+    },
+    {
+      "path": "projects/msp_link"
+    },
+    {
+      "path": "projects/flight_lens"
+    },
+    {
+      "path": "projects/bullet_view"
+    },
+    {
+      "path": "projects/bullet_perception"
+    },
+    {
+      "path": "projects/bullet_visual"
+    }
+  ],
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Bullet: Run all",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "tools/run_all.sh",
+          "${input:flightProfile}",
+          "${input:droneModel}"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:bullet-root}"
+        },
+        "problemMatcher": [
+          "$gcc"
+        ],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": true
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        },
+        "detail": "Select backend and drone model; all four combinations have explicit physics configs. Edit the root config/ mission YAML, stop the scenario, use Bullet View's Reload mission profile button, then press Start again. MCAP files go to workspace-root recordings/."
+      },
+      {
+        "label": "FlightLens: Open",
+        "type": "process",
+        "command": "uv",
+        "args": [
+          "run",
+          "--locked",
+          "--extra",
+          "assistant",
+          "--package",
+          "flight-lens",
+          "flight-lens",
+          "--config",
+          "config/flight_lens.yaml"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:flight_lens}"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Bullet View: Open",
+        "type": "process",
+        "command": "uv",
+        "args": [
+          "run",
+          "--locked",
+          "--package",
+          "bullet-view",
+          "bullet-view"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:bullet_view}"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Bullet Visual: Open",
+        "type": "process",
+        "command": "uv",
+        "args": [
+          "run",
+          "--locked",
+          "--package",
+          "bullet-visual",
+          "bullet-visual",
+          "--config",
+          "config/zmq.yaml"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:bullet_visual}"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Bullet: Build Betaflight SITL",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "tools/setup_betaflight_sitl.sh"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:bullet_drone}"
+        },
+        "problemMatcher": [
+          "$gcc"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "id": "flightProfile",
+        "type": "pickString",
+        "description": "Select the backend and matching profiles",
+        "options": [
+          "internal",
+          "betaflight"
+        ],
+        "default": "betaflight"
+      },
+      {
+        "id": "droneModel",
+        "type": "pickString",
+        "description": "Select the packaged drone URDF/configuration",
+        "options": [
+          "racer",
+          "heavy_quad"
+        ],
+        "default": "racer"
+      }
+    ]
+  },
+  "settings": {
+    "git.autoRepositoryDetection": true
+  }
+}

@@ -1,0 +1,17 @@
+[tool.uv.workspace]
+members = [
+    "projects/bullet_app",
+    "projects/bullet_drone",
+    "projects/bullet_msgs",
+    "projects/bullet_render",
+    "projects/los_tracking",
+    "projects/mcap_bagger",
+    "projects/flight_lens",
+    "projects/bullet_view",
+    "projects/msp_link",
+    "projects/bullet_perception",
+    "projects/bullet_visual",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

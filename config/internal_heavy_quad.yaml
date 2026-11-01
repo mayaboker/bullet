@@ -1,0 +1,26 @@
+# Internal-controller profile for the 5 kg heavy_quad URDF.
+simulation:
+  # Physics timestep in seconds; 240 Hz baseline.
+  timestep_s: 0.004166666666666667
+  # Maximum caller-controlled physics steps.
+  max_steps: 1200
+  # Show the PyBullet window when true; requires a display.
+  gui: true
+  # World gravity in m/s^2.
+  gravity_m_s2: [0.0, 0.0, -9.81]
+drone:
+  # Stable telemetry identity.
+  drone_id: drone_1
+  # Packaged vehicle definition.
+  urdf: heavy_quad
+  # Total vehicle mass in kilograms.
+  mass_kg: 5.0
+  # Initial world position in metres.
+  initial_position_m: [0.0, 0.0, 1.0]
+control:
+  # Use the internal controller.
+  backend: internal
+  # Internal rate P gains in N·m·s/rad, ordered roll/pitch/yaw; finite and >= 0.
+  # Omission defaults to [0.05, 0.05, 0.05]. Restart physics to apply; unused by Betaflight.
+  # Trial values: roll/pitch 0.08, yaw unchanged at 0.05; flight performance unvalidated.
+  rate_kp: [0.08, 0.08, 0.05]
