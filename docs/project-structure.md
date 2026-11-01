@@ -4,8 +4,8 @@ The workspace brings eleven projects together into one development environment.
 The workspace owns integration settings and tools. Each project owns its source,
 tests and documentation and is managed independently in Git, without submodules.
 The workspace root and all eleven project folders have their own local Git
-repository. Initial setup leaves files unstaged, without commits or remotes;
-it does not recover historical commits.
+repository with a local baseline commit. These snapshots start new local history;
+they do not recover historical commits. No remotes have been configured here.
 
 ## Directory layout
 

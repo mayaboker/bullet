@@ -64,7 +64,8 @@ uv run --locked --all-packages python tools/cleanup_flight.py --dry-run
 ## Git and verification
 
 The workspace root and all eleven projects have independent local Git
-repositories. Initial setup leaves files unstaged, without commits or remotes.
+repositories with local baseline commits. Remote configuration and pushing are
+managed separately for each repository.
 Manage workspace changes from this directory and project changes from their
 individual directories. The workspace ignores `/projects/`; it does not record
 project revisions as Git links. Environment and launch commands do not initialize

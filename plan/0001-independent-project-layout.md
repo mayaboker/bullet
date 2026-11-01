@@ -78,4 +78,8 @@ Logs and inventory: /tmp/layout-*-tests*.log, /tmp/bullet-layout-inventory.json,
 /tmp/layout-root-launch-result.json. Test/smoke processes started here were stopped.
 
 ## Implementation commit
-Pending
+`8c47f8feecf28acc718d3dff57e24a779318b124`
+
+## Repository snapshot record
+Recorded snapshot: `8c47f8feecf28acc718d3dff57e24a779318b124` (workspace repository). This is the new local
+baseline containing the current implementation, not a recovered historical commit.

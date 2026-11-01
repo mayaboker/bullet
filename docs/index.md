@@ -10,9 +10,9 @@ launch tools, dependencies, terrain assets and cross-project documentation.
 Each of the eleven directories under `projects/` is independently managed;
 project-specific docs, configuration defaults and plans stay with that project.
 The workspace root and all eleven projects are initialized as separate local
-Git repositories. There are no Git submodules. Initial setup leaves files
-unstaged and creates no commits or remotes; recovering older history is a
-separate operation.
+Git repositories with local baseline commits. There are no Git submodules or
+configured remotes. Recovering older history is a separate operation. Initial
+snapshot hashes are recorded in the [commit plan](../plan/0003-initial-repository-commits.md).
 
 ## Paths and launch flow
 
