@@ -10,7 +10,7 @@ launch tools, dependencies, terrain assets and cross-project documentation.
 Each of the eleven directories under `projects/` is independently managed;
 project-specific docs, configuration defaults and plans stay with that project.
 The workspace root and all eleven projects are initialized as separate local
-Git repositories with their own public GitHub origins. See the
+Git repositories published separately on GitHub. See the
 [repository list and clone instructions](repositories.md). There are no Git
 submodules. Recovering older history is a separate operation. Initial
 snapshot hashes are recorded in the [commit plan](../plan/0003-initial-repository-commits.md).

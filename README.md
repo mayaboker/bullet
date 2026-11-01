@@ -4,7 +4,7 @@ This repository owns the integration of eleven independently managed projects.
 Each project lives under `projects/` and retains its own source, tests, defaults,
 documentation and plans. The workspace does not use Git submodules.
 
-The workspace and all projects are public on GitHub. See the
+Project repositories are being published publicly on GitHub. See the
 [repository list and clone instructions](docs/repositories.md).
 
 ## Layout and ownership
