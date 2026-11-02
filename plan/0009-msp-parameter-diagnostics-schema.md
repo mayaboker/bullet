@@ -1,7 +1,7 @@
 # MSP parameter queue diagnostics schema repair
 
 - Status: Implemented; verified 2026-11-02
-- Implementation commit: Pending
+- Implementation commit: `30c387e6f94917b2ff661375d28a365b5088cace`
 
 Fix recorder rejection of analysis/app/msp sensor_feedback fields
 output_parameters_queue_depth and output_dropped_parameters. Extend the shared
@@ -30,4 +30,17 @@ by the six-case analysis recording suite covering both phases). Whitespace check
 passed. No flight/recording authority/lifecycle behavior changed, and no physical
 motors were actuated. Restart the workspace launcher/recorder before a new run:
 recorders cache their schema validators in startup configuration. No running
-session was restarted; no commits or pushes. Implementation commit: Pending.
+session was restarted; no commits or pushes. Implementation commit: `30c387e6f94917b2ff661375d28a365b5088cace`.
+
+## Commit record — 2026-11-02
+
+The verification notes above describe the pre-commit work. Implementation is
+now committed; nothing was pushed. These are implementation hashes, rather than
+the subsequent documentation commits that record them.
+
+| Repository | Implementation commit |
+|---|---|
+| bullet_msgs | `30c387e6f94917b2ff661375d28a365b5088cace` |
+| bullet_app | `41ce23a7fbbc08f5e63f7b65faf6bb1a6ada9f72` |
+| mcap_bagger | `e527a9aab189bde69e580b53b4bd5148cf7a7f85` |
+| workspace | `7a724df66b5e09d4b3be25a8ace6c20d73681aab` |

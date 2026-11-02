@@ -1,7 +1,7 @@
 # Manual flight controls and takeoff-height slider
 
 - Status: Implemented; verification passed on 2026-11-02.
-- Implementation commit: Pending
+- Implementation commit: `41ce23a7fbbc08f5e63f7b65faf6bb1a6ada9f72`
 - Destination: Main conversation. Read applicable project instructions and current changes before implementation.
 
 ## Scope
@@ -158,4 +158,18 @@ Physical Betaflight/MSP actuation remains unverified; MSP command 99 behavior wa
 checked against the pinned 2026.6.2 source, and its scheduler behavior tested with
 a fake client. A camera-only production run still needs a compatible mission
 profile and fresh flight-feedback provider before flight controls become ready.
-Implementation commit remains Pending.
+Implementation commit: `41ce23a7fbbc08f5e63f7b65faf6bb1a6ada9f72`.
+
+## Commit record — 2026-11-02
+
+The verification notes above describe the pre-commit work. Implementation is
+now committed; nothing was pushed. These are implementation hashes, rather than
+the subsequent documentation commits that record them.
+
+| Repository | Implementation commit |
+|---|---|
+| bullet_app | `41ce23a7fbbc08f5e63f7b65faf6bb1a6ada9f72` |
+| bullet_view | `8653377251f426e1f1c6539191e2cd91480e447e` |
+| bullet_msgs | `30c387e6f94917b2ff661375d28a365b5088cace` |
+| bullet_bringup | `bb7371e66e2bbee1210142d8ea64b25e03ab1ba6` |
+| workspace | `7a724df66b5e09d4b3be25a8ace6c20d73681aab` |

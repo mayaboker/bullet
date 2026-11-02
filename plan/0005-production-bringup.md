@@ -34,10 +34,10 @@ cleanup tests; existing app/recorder/shared-message suites; wheel build and fres
 environment install outside workspace. No real camera or flight actuation needed.
 
 ## Status
-Implemented; verification passed. Not committed.
+Implemented; verification passed.
 
 ## Implementation commit
-Pending
+`bb7371e66e2bbee1210142d8ea64b25e03ab1ba6`
 
 ## Verification results
 - 20 bringup tests passed: configuration/dry-run, process startup/failure/signals,
@@ -67,3 +67,17 @@ Pending
 
 Verification logs: /tmp/bringup-*-final.log; installed check:
 /tmp/bringup-installed-final.log. Local sources and wheel payloads were compared.
+
+## Commit record — 2026-11-02
+
+The verification notes above describe the pre-commit work. Implementation is
+now committed; nothing was pushed. These are implementation hashes, rather than
+the subsequent documentation commits that record them.
+
+| Repository | Implementation commit |
+|---|---|
+| bullet_bringup | `bb7371e66e2bbee1210142d8ea64b25e03ab1ba6` |
+| bullet_app | `41ce23a7fbbc08f5e63f7b65faf6bb1a6ada9f72` |
+| bullet_msgs | `30c387e6f94917b2ff661375d28a365b5088cace` |
+| mcap_bagger | `e527a9aab189bde69e580b53b4bd5148cf7a7f85` |
+| workspace | `7a724df66b5e09d4b3be25a8ace6c20d73681aab` |
