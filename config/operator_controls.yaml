@@ -1,0 +1,4 @@
+# automatic or manual; manual waits for Bullet View Arm, then Start mission.
+arming_mode: manual
+# mavlink lets Bullet View start/stop recording; godot follows simulation recording events.
+recording_control_source: mavlink

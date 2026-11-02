@@ -5,6 +5,7 @@ requires-python = ">=3.12"
 [manifest]
 members = [
     "bullet-app",
+    "bullet-bringup",
     "bullet-drone",
     "bullet-msgs",
     "bullet-perception",
@@ -70,6 +71,37 @@ dev = [
     { name = "mcap-bagger", editable = "projects/mcap_bagger" },
     { name = "pytest", specifier = ">=9,<10" },
 ]
+
+[[package]]
+name = "bullet-bringup"
+version = "0.1.0"
+source = { editable = "projects/bullet_bringup" }
+dependencies = [
+    { name = "bullet-app" },
+    { name = "bullet-visual" },
+    { name = "click" },
+    { name = "loguru" },
+    { name = "mcap-bagger" },
+    { name = "pyyaml" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "bullet-app", editable = "projects/bullet_app" },
+    { name = "bullet-visual", editable = "projects/bullet_visual" },
+    { name = "click", specifier = ">=8.5,<9" },
+    { name = "loguru", specifier = ">=0.7,<1" },
+    { name = "mcap-bagger", editable = "projects/mcap_bagger" },
+    { name = "pyyaml", specifier = ">=6,<7" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9,<10" }]
 
 [[package]]
 name = "bullet-drone"

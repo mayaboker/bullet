@@ -9,6 +9,7 @@ import subprocess
 import sys
 import threading
 import time
+import yaml
 from bullet_drone.config import YamlConfigLoader
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sitl_supervisor import SitlSupervisor
@@ -20,6 +21,22 @@ DEFAULT_APP_CONFIG = WORKSPACE / 'config/app.json'
 READY_TIMEOUT_S = 15
 SHUTDOWN_TIMEOUT_S = 10
 LOG_LOCK = threading.Lock()
+
+
+def load_operator_controls(path):
+    """Omission retains the legacy launcher; Run all supplies the workspace YAML."""
+    if path is None:
+        return 'automatic', 'godot'
+    try:
+        values = yaml.safe_load(Path(path).expanduser().resolve().read_text())
+    except (OSError, UnicodeError, yaml.YAMLError) as error:
+        raise ValueError(f'Cannot read operator controls: {error}') from error
+    if not isinstance(values, dict) or set(values) != {'arming_mode', 'recording_control_source'}:
+        raise ValueError('Operator controls require arming_mode and recording_control_source')
+    arming, recording = values['arming_mode'], values['recording_control_source']
+    if arming not in ('automatic', 'manual') or recording not in ('mavlink', 'godot'):
+        raise ValueError('Invalid arming mode or recording control source')
+    return arming, recording
 
 
 def copy_log(pipe, path, name):
@@ -38,6 +55,7 @@ def main():
     parser.add_argument('--physics-config', type=Path, default=ROOT.parent / 'bullet_drone/configs/basic.yaml')
     parser.add_argument('--mission-config', type=Path, help='Navigator profile; defaults to the LOS profile')
     parser.add_argument('--hover-check', action='store_true', help='Stop after a stable 20-second hover')
+    parser.add_argument('--controls-config', type=Path, help='Operator YAML; Run all uses config/operator_controls.yaml')
     args = parser.parse_args()
     args.app_config = args.app_config.expanduser().resolve()
     args.physics_config = args.physics_config.expanduser().resolve()
@@ -70,8 +88,11 @@ def main():
     try:
         print(f'Flight process logs: {session}', flush=True)
         output_dir = load_recording_output(args.app_config, output_dir=args.mcap_output_dir)
+        arming_mode, recording_source = load_operator_controls(args.controls_config)
+        print(f'Flight arming: {arming_mode}; recording authority: {recording_source}', flush=True)
         print(f'MCAP output directory: {output_dir}', flush=True)
-        recorder = launch('recorder', [sys.executable, '-m', 'mcap_bagger.cli', '--config', str(ROOT / 'configs/recorder.yaml'), '--output-dir', str(output_dir), '--ready-file', str(session / 'recorder.ready')], ROOT.parent / 'mcap_bagger')
+        recorder = launch('recorder', [sys.executable, '-m', 'mcap_bagger.cli', '--config', str(ROOT / 'configs/recorder.yaml'), '--output-dir', str(output_dir), '--ready-file', str(session / 'recorder.ready'),
+            '--control-mode', 'recording' if recording_source == 'mavlink' else 'simulation'], ROOT.parent / 'mcap_bagger')
         deadline = time.monotonic() + READY_TIMEOUT_S
         while not (session / 'recorder.ready').exists():
             if recorder.poll() is not None or time.monotonic() >= deadline:
@@ -88,6 +109,7 @@ def main():
         mission_config = (ROOT.parent / 'bullet_app/configs/betaflight_hover_profile.yaml' if args.hover_check
                           else args.mission_config or ROOT.parent / 'los_tracking/examples/bullet_profile.yaml')
         app_command = [str(Path(sys.executable).parent / 'bullet-app'), '--transport-config', str(ROOT / 'configs/transport.json'), '--mission-config', str(mission_config), '--debug']
+        app_command += ['--arming-mode', arming_mode, '--recording-control-source', recording_source]
         if args.hover_check:
             app_command.append('--hover-check')
         launch('app', app_command, ROOT.parent / 'bullet_app')

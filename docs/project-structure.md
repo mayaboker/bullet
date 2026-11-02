@@ -1,11 +1,11 @@
 # Project and workspace structure
 
-The workspace brings eleven projects together into one development environment.
+The workspace brings twelve projects together into one development environment.
 The workspace owns integration settings and tools. Each project owns its source,
 tests and documentation and is managed independently in Git, without submodules.
-The workspace root and all eleven project folders have their own local Git
-repository with a local baseline commit. These snapshots start new local history;
-they do not recover historical commits. Published repositories have their own GitHub origins;
+The workspace root and all twelve project folders have their own local Git
+repository. New local history does not recover historical commits.
+Published repositories have their own GitHub origins;
 see the [public repository list](repositories.md).
 
 ## Directory layout
@@ -30,6 +30,7 @@ bullet/
 ├── assets/
 │   └── terrain/                 # Shared mesh, heightmap and manifest
 ├── projects/
+│   ├── bullet_bringup/
 │   ├── bullet_app/
 │   ├── bullet_drone/
 │   ├── bullet_msgs/
@@ -49,6 +50,7 @@ bullet/
 
 | Project | Responsibility |
 |---|---|
+| [bullet_bringup](../projects/bullet_bringup/) | Installs and launches the headless application processes with selectable recording authority. |
 | [bullet_app](../projects/bullet_app/) | Runs the mission, consumes visual detections and sensor feedback, applies LOS guidance, and publishes flight commands and telemetry. |
 | [bullet_drone](../projects/bullet_drone/) | Simulates drone dynamics, sensors and flight-controller behavior using PyBullet. |
 | [bullet_msgs](../projects/bullet_msgs/) | Defines shared message contracts, schemas and shared-memory image transport. |
@@ -98,7 +100,7 @@ git status --short
 git -C projects/bullet_app status --short
 ```
 
-Reload `bullet.code-workspace` in VS Code to discover all twelve repositories.
+Reload `bullet.code-workspace` in VS Code to discover all thirteen repositories.
 Select the repository in Source Control before staging or committing its files.
 
 ## Shared environment and launch flow

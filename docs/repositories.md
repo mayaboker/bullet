@@ -13,6 +13,7 @@ committed, without origins. Their creation/push is pending.
 | Local directory | GitHub repository | Status |
 |---|---|---|
 | Workspace root | [bullet](https://github.com/mayaboker/bullet)  Pending creation |
+| `projects/bullet_bringup` | Not published | Local repository only |
 | `projects/bullet_app` | [bullet_app](https://github.com/mayaboker/bullet_app)  Public; pushed |
 | `projects/bullet_drone` | [bullet_drone](https://github.com/mayaboker/bullet_drone)  Public; pushed |
 | `projects/bullet_msgs` | [bullet_msgs](https://github.com/mayaboker/bullet_msgs)  Public; pushed |
@@ -27,7 +28,7 @@ committed, without origins. Their creation/push is pending.
 
 ## Clone the complete workspace
 
-Once the two pending repositories have been created, the following clones the
+Once the pending/new repositories have been published, the following clones the
 complete workspace. Cloning the workspace alone does not fetch its ignored project directories.
 Clone each project separately:
 
@@ -35,7 +36,7 @@ Clone each project separately:
 git clone https://github.com/mayaboker/bullet.git
 cd bullet
 mkdir -p projects
-for project in bullet_app bullet_drone bullet_msgs bullet_perception bullet_render bullet_view bullet_visual flight_lens los_tracking mcap_bagger msp_link; do
+for project in bullet_bringup bullet_app bullet_drone bullet_msgs bullet_perception bullet_render bullet_view bullet_visual flight_lens los_tracking mcap_bagger msp_link; do
   git clone "https://github.com/mayaboker/$project.git" "projects/$project"
 done
 uv sync --locked --all-packages --all-extras --all-groups

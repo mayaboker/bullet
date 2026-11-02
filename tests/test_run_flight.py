@@ -8,7 +8,8 @@ import json
 import pytest
 
 
-def test_recorded_launcher_order_logs_and_shutdown(tmp_path,monkeypatch):
+@pytest.mark.parametrize('manual', [False, True])
+def test_recorded_launcher_order_logs_and_shutdown(tmp_path,monkeypatch,manual):
     spec=spec_from_file_location('run_flight',Path(__file__).resolve().parents[1]/'tools/run_flight.py')
     module=module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -22,6 +23,10 @@ def test_recorded_launcher_order_logs_and_shutdown(tmp_path,monkeypatch):
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(module.sys,'argv',['run_flight','--app-config',str(app_config),'--mcap-output-dir',str(override),
                                            '--mission-config',mission_config.name])
+    if manual:
+        controls=tmp_path/'operator.yaml'
+        controls.write_text('arming_mode: manual\nrecording_control_source: mavlink\n')
+        module.sys.argv+=['--controls-config',str(controls)]
     monkeypatch.setattr(module.signal,'signal',lambda *args:None)
     monkeypatch.setattr(module.time,'sleep',lambda *args:None)
     launched=[]
@@ -44,6 +49,9 @@ def test_recorded_launcher_order_logs_and_shutdown(tmp_path,monkeypatch):
     assert command[command.index('--output-dir')+1]==str(override)
     app_command=next(command for command,_ in launched if '--debug' in command)
     assert app_command[app_command.index('--mission-config')+1]==str(mission_config)
+    assert app_command[app_command.index('--arming-mode')+1]==('manual' if manual else 'automatic')
+    assert app_command[app_command.index('--recording-control-source')+1]==('mavlink' if manual else 'godot')
+    assert command[command.index('--control-mode')+1]==('recording' if manual else 'simulation')
     assert [details['cwd'] for _, details in launched] == [
         tmp_path/'projects/mcap_bagger', tmp_path/'projects/bullet_render',
         tmp_path/'projects/bullet_drone', tmp_path/'projects/bullet_app']
@@ -81,3 +89,20 @@ def test_recorder_or_config_failure_never_launches_flight_services(tmp_path,monk
         assert 'mcap_bagger.cli' in calls[0]
         assert calls[0][calls[0].index('--output-dir')+1]==str(tmp_path/'blocked')
     assert not any('examples.external_rc.main' in c or '--debug' in c or '--path' in c for c in calls)
+
+
+@pytest.mark.parametrize('text', ['[]', '{}', 'arming_mode: bad\nrecording_control_source: mavlink',
+    'arming_mode: manual\nrecording_control_source: bad', '[broken'])
+def test_invalid_operator_config_rejected(tmp_path,text):
+    spec=spec_from_file_location('run_flight',Path(__file__).resolve().parents[1]/'tools/run_flight.py')
+    module=module_from_spec(spec);spec.loader.exec_module(module)
+    path=tmp_path/'controls.yaml';path.write_text(text)
+    with pytest.raises(ValueError):module.load_operator_controls(path)
+
+
+def test_run_all_uses_manual_workspace_config():
+    root=Path(__file__).resolve().parents[1]
+    spec=spec_from_file_location('run_flight',root/'tools/run_flight.py')
+    module=module_from_spec(spec);spec.loader.exec_module(module)
+    assert module.load_operator_controls(root/'config/operator_controls.yaml')==('manual','mavlink')
+    assert '--controls-config "$workspace_root/config/operator_controls.yaml"' in (root/'tools/run_all.sh').read_text()

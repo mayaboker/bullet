@@ -3,13 +3,16 @@
 See [Project and workspace structure](project-structure.md) for the directory
 layout, project responsibilities, Git ownership and where to put changes.
 
+See [Production bringup](production-bringup.md) for the installed companion
+launcher and selectable MAVLink/Godot recording control.
+
 ## Ownership
 
 The workspace repository owns integration profiles in root `config/`, shared
 launch tools, dependencies, terrain assets and cross-project documentation.
-Each of the eleven directories under `projects/` is independently managed;
+Each of the twelve directories under `projects/` is independently managed;
 project-specific docs, configuration defaults and plans stay with that project.
-The workspace root and all eleven projects are initialized as separate local
+The workspace root and all twelve projects are initialized as separate local
 Git repositories published separately on GitHub. See the
 [repository list and clone instructions](repositories.md). There are no Git
 submodules. Recovering older history is a separate operation. Initial

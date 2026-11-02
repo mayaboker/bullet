@@ -25,4 +25,5 @@ trap cleanup EXIT
 uv run --locked --all-packages --all-extras --all-groups python "$workspace_root/tools/run_flight.py" \
   --physics-config "$workspace_root/config/$physics_profile" \
   --mission-config "$workspace_root/config/$mission_profile" \
+  --controls-config "$workspace_root/config/operator_controls.yaml" \
   --mcap-output-dir "$workspace_root/recordings"

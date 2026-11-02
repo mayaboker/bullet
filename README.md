@@ -1,6 +1,6 @@
 # Bullet workspace
 
-This repository owns the integration of eleven independently managed projects.
+This repository owns the integration of twelve independently managed projects.
 Each project lives under `projects/` and retains its own source, tests, defaults,
 documentation and plans. The workspace does not use Git submodules.
 
@@ -31,6 +31,15 @@ uv sync --locked --all-packages --all-extras --all-groups
 Open `bullet.code-workspace` in VS Code. Project names remain unchanged in the
 editor; the root task **Bullet: Run all** selects the backend and drone model.
 
+## Production launcher
+
+See [production bringup](docs/production-bringup.md) for the installed headless
+launcher and MAVLink/Godot recording authority. Preview a launch without side effects:
+
+```bash
+uv run --locked --package bullet-bringup bullet-bringup run --config projects/bullet_bringup/config/bringup.yaml --dry-run
+```
+
 ## Run
 
 From the workspace root, build and launch the full internal heavy-quad workflow:
@@ -41,7 +50,16 @@ bash tools/run_all.sh internal heavy_quad
 
 Other combinations are `internal racer`, `betaflight racer`, and
 `betaflight heavy_quad`. The Betaflight workflow requires its existing SITL setup.
-The launcher opens Godot; press Start to begin the mission.
+The **Bullet: Run all** task uses [config/operator_controls.yaml](config/operator_controls.yaml):
+manual arming and MAVLink recording. Start the Godot session to enable feedback,
+then use Bullet View: **Apply height → Arm → wait for armed idle → Start mission**.
+Arm alone keeps minimum throttle. **Start recording** and **Stop recording** are
+independent buttons above the tabs; Stop waits for the MCAP to finalize.
+Restart the launcher after changing operator controls. Set `arming_mode` to
+`automatic` or `recording_control_source` to `godot` to restore either behavior.
+Direct `tools/run_flight.py` calls without `--controls-config` retain their legacy
+automatic/Godot defaults; pass `--controls-config config/operator_controls.yaml`
+to use the workspace settings.
 
 To launch flight services directly after building the renderer, first start
 `bullet-visual --config projects/bullet_visual/config/zmq.yaml` in the shared
@@ -50,6 +68,7 @@ environment, then run:
 ```bash
 uv run --locked --all-packages --all-extras --all-groups python tools/run_flight.py \
   --physics-config config/internal_heavy_quad.yaml \
+  --controls-config config/operator_controls.yaml \
   --mission-config config/bullet_profile_heavy_quad.yaml
 ```
 
@@ -66,8 +85,8 @@ uv run --locked --all-packages python tools/cleanup_flight.py --dry-run
 
 ## Git and verification
 
-The workspace root and all eleven projects have independent local Git
-repositories with local baseline commits. Remote configuration and pushing are
+The workspace root and all twelve projects have independent local Git
+repositories. Remote configuration and pushing are
 managed separately for each repository.
 Manage workspace changes from this directory and project changes from their
 individual directories. The workspace ignores `/projects/`; it does not record

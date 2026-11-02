@@ -44,6 +44,9 @@
     },
     {
       "path": "projects/bullet_visual"
+    },
+    {
+      "path": "projects/bullet_bringup"
     }
   ],
   "tasks": {
@@ -72,7 +75,7 @@
         "runOptions": {
           "instanceLimit": 1
         },
-        "detail": "Select backend and drone model; all four combinations have explicit physics configs. Edit the root config/ mission YAML, stop the scenario, use Bullet View's Reload mission profile button, then press Start again. MCAP files go to workspace-root recordings/."
+        "detail": "Select backend and drone model. config/operator_controls.yaml selects manual Arm/Start and MAVLink recording in Bullet View. Start the Godot session, then Arm and Start mission in Bullet View. MCAP files go to workspace-root recordings/."
       },
       {
         "label": "FlightLens: Open",
