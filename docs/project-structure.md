@@ -41,7 +41,8 @@ bullet/
 │   ├── flight_lens/
 │   ├── los_tracking/
 │   ├── mcap_bagger/
-│   └── msp_link/
+│   ├── msp_link/
+│   └── msp_telem_logger/
 ├── recordings/                  # Generated MCAPs, indexes and process logs
 └── .venv/                       # Shared Python environment
 ```
@@ -62,6 +63,7 @@ bullet/
 | [los_tracking](../projects/los_tracking/) | Converts timestamped bounding boxes, attitude and altitude into bounded guidance demands. |
 | [mcap_bagger](../projects/mcap_bagger/) | Records images and telemetry into MCAP files. |
 | [msp_link](../projects/msp_link/) | Provides MSP communication over TCP or serial for flight-controller integration. |
+| [msp_telem_logger](../projects/msp_telem_logger/) | Records raw camera frames and read-only Betaflight MSP telemetry, starting its own MCAP recorder. |
 
 ## Where changes belong
 

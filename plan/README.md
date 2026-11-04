@@ -16,3 +16,15 @@
 - [0009: MSP diagnostic schema repair](0009-msp-parameter-diagnostics-schema.md) — Implemented; 285 tests passed; commit `30c387e6f94917b2ff661375d28a365b5088cace`.
 
 - [0010: Commit all pending work](0010-commit-all-pending-work.md) — Implemented; commit `7a724df66b5e09d4b3be25a8ace6c20d73681aab`.
+
+- [0011: VS Code wheel build](0011-vscode-wheel-build.md) — Implemented; picker and actual wheel build verified; commit Pending.
+
+- [0012: Linux GUI icons and launchers](0012-linux-gui-icons-launchers.md) — Implemented; 185 tests and installed wheel checks passed; commit Pending.
+
+- [0013 MSP telemetry logger](0013-msp-telemetry-logger.md) — Implemented; 343 tests passed, 1 skipped; installed-wheel checks passed; implementation commit: Pending.
+
+- [0014 JPEG MCAP recording](0014-jpeg-mcap-recording.md) — Implemented; 450 checks in isolated groups and installed-wheel validation passed; implementation commit: Pending.
+
+- [0015 JPEG deployment versions](0015-jpeg-deployment-versions.md) — Implemented; installed upgrade, JPEG config and readback verified; implementation commit: Pending.
+
+- [0016 Five-second MSP rate log](0016-msp-rate-log.md) — Implemented; 64 affected tests passed; implementation commit: Pending.

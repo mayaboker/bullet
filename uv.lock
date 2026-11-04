@@ -16,6 +16,7 @@ members = [
     "los-tracking",
     "mcap-bagger",
     "msp-link",
+    "msp-telem-logger",
 ]
 
 [[package]]
@@ -145,7 +146,7 @@ dev = [
 
 [[package]]
 name = "bullet-msgs"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "projects/bullet_msgs" }
 dependencies = [
     { name = "pyzmq" },
@@ -496,7 +497,7 @@ wheels = [
 
 [[package]]
 name = "flight-lens"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "projects/flight_lens" }
 dependencies = [
     { name = "bullet-msgs" },
@@ -504,6 +505,7 @@ dependencies = [
     { name = "jsonschema" },
     { name = "mcap" },
     { name = "numpy" },
+    { name = "pillow" },
     { name = "pyqtgraph" },
     { name = "pyside6-essentials" },
     { name = "pyyaml" },
@@ -527,6 +529,7 @@ requires-dist = [
     { name = "llama-cpp-python", marker = "extra == 'assistant'", specifier = ">=0.3,<1" },
     { name = "mcap", specifier = ">=1.3,<2" },
     { name = "numpy", specifier = ">=2,<3" },
+    { name = "pillow", specifier = ">=11,<13" },
     { name = "pyqtgraph", specifier = ">=0.13.7,<0.15" },
     { name = "pyside6-essentials", specifier = ">=6.8,<7" },
     { name = "pyyaml", specifier = ">=6,<7" },
@@ -922,7 +925,7 @@ wheels = [
 
 [[package]]
 name = "mcap-bagger"
-version = "0.1.0"
+version = "0.1.3"
 source = { editable = "projects/mcap_bagger" }
 dependencies = [
     { name = "bullet-msgs" },
@@ -938,6 +941,9 @@ dependencies = [
 demo = [
     { name = "pillow" },
 ]
+jpeg = [
+    { name = "pillow" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -951,18 +957,19 @@ requires-dist = [
     { name = "jsonschema", specifier = ">=4,<5" },
     { name = "mcap", specifier = ">=1.3,<2" },
     { name = "pillow", marker = "extra == 'demo'", specifier = ">=11,<13" },
+    { name = "pillow", marker = "extra == 'jpeg'", specifier = ">=11,<13" },
     { name = "protobuf", specifier = ">=5,<8" },
     { name = "pyyaml", specifier = ">=6,<7" },
     { name = "pyzmq", specifier = ">=27,<28" },
 ]
-provides-extras = ["demo"]
+provides-extras = ["jpeg", "demo"]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=8,<10" }]
 
 [[package]]
 name = "msp-link"
-version = "0.1.0"
+version = "0.1.2"
 source = { editable = "projects/msp_link" }
 dependencies = [
     { name = "pyserial" },
@@ -975,6 +982,45 @@ dev = [
 
 [package.metadata]
 requires-dist = [{ name = "pyserial", specifier = ">=3.5,<4" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9,<10" }]
+
+[[package]]
+name = "msp-telem-logger"
+version = "0.1.5"
+source = { editable = "projects/msp_telem_logger" }
+dependencies = [
+    { name = "bullet-msgs" },
+    { name = "bullet-visual" },
+    { name = "click" },
+    { name = "jsonschema" },
+    { name = "loguru" },
+    { name = "mcap-bagger", extra = ["jpeg"] },
+    { name = "msp-link" },
+    { name = "numpy" },
+    { name = "pyyaml" },
+    { name = "pyzmq" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "bullet-msgs", editable = "projects/bullet_msgs" },
+    { name = "bullet-visual", editable = "projects/bullet_visual" },
+    { name = "click", specifier = ">=8.5,<9" },
+    { name = "jsonschema", specifier = ">=4,<5" },
+    { name = "loguru", specifier = ">=0.7,<1" },
+    { name = "mcap-bagger", extras = ["jpeg"], editable = "projects/mcap_bagger" },
+    { name = "msp-link", editable = "projects/msp_link" },
+    { name = "numpy", specifier = ">=2,<3" },
+    { name = "pyyaml", specifier = ">=6,<7" },
+    { name = "pyzmq", specifier = ">=27,<28" },
+]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9,<10" }]

@@ -17,6 +17,7 @@ Project repositories are being published publicly on GitHub. See the
 - `experiments/`: research scripts, formerly `r_and_d/`.
 - `assets/terrain/`: shared terrain mesh, heightmap and manifest.
 - `recordings/`: generated MCAPs, indexes and launch-session logs; ignored.
+- `deploy/`: generated Python wheels; ignored.
 - `.venv/`, `pyproject.toml`, `uv.lock`: shared environment and dependency lock.
 
 ## Setup
@@ -30,6 +31,41 @@ uv sync --locked --all-packages --all-extras --all-groups
 
 Open `bullet.code-workspace` in VS Code. Project names remain unchanged in the
 editor; the root task **Bullet: Run all** selects the backend and drone model.
+
+## Build a Python wheel
+
+Open `bullet.code-workspace`, run **Tasks: Run Task → Bullet: Build Python wheel**,
+and select a project from the list. The wheel is written to workspace-root
+`deploy/`, which is ignored by Git. Wheels for other projects remain in that
+directory. The native `bullet_render` project is excluded because it is not a
+Python package.
+
+Equivalent command from the workspace root, for example:
+
+```bash
+uv build --package bullet-app --wheel --out-dir deploy
+```
+
+To build every Python package at once, run **Tasks: Run Task → Bullet: Build all
+Python wheels**. This includes `msp_telem_logger` and its sibling dependencies;
+the non-package `bullet_render` project is skipped.
+
+```bash
+uv build --all-packages --wheel --out-dir deploy
+```
+
+Bullet View and FlightLens wheels include application icons. After installing a
+GUI wheel in your chosen environment, run `bullet-view --install-launcher` or
+`flight-lens --install-launcher` from that environment to add Linux menu and
+desktop entries. Use `--menu-only` to skip the desktop shortcut, or
+`--uninstall-launcher` to remove the managed entries. Building a wheel does not
+register shortcuts automatically. See each GUI project's README for details.
+
+The original flight-themed assets can be regenerated in the shared environment:
+
+```bash
+QT_QPA_PLATFORM=offscreen uv run --locked --all-packages python tools/generate_gui_icons.py
+```
 
 ## Production launcher
 
@@ -111,3 +147,15 @@ uv run --locked --all-packages pytest -q tests
 Run each project's tests from its own directory to preserve its test/import
 configuration. See [workspace details](docs/index.md) and
 [migration record](plan/0001-independent-project-layout.md).
+
+### Standalone camera and MSP recording
+
+[`msp_telem_logger`](projects/msp_telem_logger/README.md) records USB/MIPI/ZMQ
+camera images (JPEG by default) plus read-only Betaflight attitude, altitude, GPS and status. It
+starts its own MCAP recorder. All MSP request intervals default to 0.1 s (10 Hz)
+and are independently configured in YAML:
+
+```bash
+uv run --locked msp-telem-logger --print-example usb > logger.yaml
+uv run --locked msp-telem-logger --config logger.yaml
+```

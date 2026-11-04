@@ -1,5 +1,6 @@
 [tool.uv.workspace]
 members = [
+    "projects/msp_telem_logger",
     "projects/bullet_bringup",
     "projects/bullet_app",
     "projects/bullet_drone",

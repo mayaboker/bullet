@@ -47,6 +47,9 @@
     },
     {
       "path": "projects/bullet_bringup"
+    },
+    {
+      "path": "projects/msp_telem_logger"
     }
   ],
   "tasks": {
@@ -144,6 +147,57 @@
         "problemMatcher": [
           "$gcc"
         ]
+      },
+      {
+        "label": "Bullet: Build Python wheel",
+        "type": "process",
+        "command": "uv",
+        "args": [
+          "build",
+          "--package",
+          "${input:wheelProject}",
+          "--wheel",
+          "--out-dir",
+          "${workspaceFolder:bullet-root}/deploy"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:bullet-root}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": true
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        },
+        "detail": "Select a Python project and build its .whl into workspace-root deploy/. Existing wheels for other projects are retained."
+      },
+      {
+        "label": "Bullet: Build all Python wheels",
+        "type": "process",
+        "command": "uv",
+        "args": [
+          "build",
+          "--all-packages",
+          "--wheel",
+          "--out-dir",
+          "${workspaceFolder:bullet-root}/deploy"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:bullet-root}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": true
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        },
+        "detail": "Build all Python workspace packages into workspace-root deploy/. No project selection is required; non-package projects are skipped."
       }
     ],
     "inputs": [
@@ -166,6 +220,62 @@
           "heavy_quad"
         ],
         "default": "racer"
+      },
+      {
+        "id": "wheelProject",
+        "type": "pickString",
+        "description": "Select the Python project to build as a wheel",
+        "options": [
+          {
+            "label": "bullet_app",
+            "value": "bullet-app"
+          },
+          {
+            "label": "bullet_bringup",
+            "value": "bullet-bringup"
+          },
+          {
+            "label": "bullet_drone",
+            "value": "bullet-drone"
+          },
+          {
+            "label": "bullet_msgs",
+            "value": "bullet-msgs"
+          },
+          {
+            "label": "bullet_perception",
+            "value": "bullet-perception"
+          },
+          {
+            "label": "bullet_view",
+            "value": "bullet-view"
+          },
+          {
+            "label": "bullet_visual",
+            "value": "bullet-visual"
+          },
+          {
+            "label": "flight_lens",
+            "value": "flight-lens"
+          },
+          {
+            "label": "los_tracking",
+            "value": "los-tracking"
+          },
+          {
+            "label": "mcap_bagger",
+            "value": "mcap-bagger"
+          },
+          {
+            "label": "msp_link",
+            "value": "msp-link"
+          },
+          {
+            "label": "msp_telem_logger",
+            "value": "msp-telem-logger"
+          }
+        ],
+        "default": "bullet-app"
       }
     ]
   },
